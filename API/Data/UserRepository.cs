@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entites;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -27,9 +28,31 @@ namespace API.Data
             return await _context.Users
             .Where(u => u.Name.Contains(data) || data.Contains(u.Name) || data.Equals(u.UserHash)).ToListAsync();
         }
-        public async Task<AppUser> GetUserByHash(int hash)
+        public async Task<MemberDto> GetUserByHash(int hash)
         {
-            return await _context.Users.Where(u => u.ID == hash).FirstOrDefaultAsync();;
+            var user = await _context.Users.Where(u => u.ID == hash).FirstOrDefaultAsync();
+            MemberDto memberDto = new MemberDto();
+            if(user != null)
+            {   List<Opinion> opinions = new List<Opinion>();
+                var opinionsList = _context.Opinions.Where(o => o.UserId == user.ID).ToList();
+                foreach(var o in opinionsList)
+                {
+                    opinions.Add(o);
+                }
+                memberDto = new MemberDto()
+                {
+                    ID = user.ID,
+                    UserHash = user.UserHash,
+                    Opinions = opinions,
+                    Email = user.Email,
+                    Name = user.Name,
+                    Gender = user.Gender,
+                    Description = user.Description,
+                    Avatar = user.Avatar
+                };
+                
+            }
+            return memberDto;
         }
 
         public async Task<bool> SaveAllAsync()

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entites;
 
 namespace API.Interfaces
@@ -12,7 +13,7 @@ namespace API.Interfaces
         Task<bool> SaveAllAsync();
         Task<IEnumerable<AppUser>> GetUsersAsync();
         Task<IEnumerable<AppUser>> GetUsersByDataAsync(string name);
-        Task<AppUser> GetUserByHash(int hash);
+        Task<MemberDto> GetUserByHash(int hash);
        
     }
 }

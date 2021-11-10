@@ -18,6 +18,7 @@ namespace API.Data
         public DbSet<Trip> Trips {get; set; }
         public DbSet<Passenger> Passenger {get; set;}
         public DbSet<Car> Cars {get; set;}
+        public DbSet<Opinion> Opinions {get; set;}
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

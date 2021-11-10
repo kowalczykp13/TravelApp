@@ -36,7 +36,7 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsersByData(string data)
         {
             var user = await _userRepository.GetUsersByDataAsync(data);
-            // var userToReturn = _mapper.Map<IEnumerable<MemberDto>>(user);
+            var userToReturn = _mapper.Map<IEnumerable<MemberDto>>(user);
             return Ok(user);
         }
         [HttpGet("user/{hash}")]
@@ -44,7 +44,13 @@ namespace API.Controllers
         {
             int hashInt = Int32.Parse(hash);
             var user = await _userRepository.GetUserByHash(hashInt);
-            return _mapper.Map<MemberDto>(user);
+            if(user != null)
+            {
+                return _mapper.Map<MemberDto>(user);
+            }
+
+            return BadRequest("User does not exist");
         }
+
     }
 }

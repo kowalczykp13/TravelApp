@@ -10,7 +10,7 @@ namespace API.DTOs
     {
         public int ID { get; set; }
         public int UserHash { get; set; }
-        
+        public List<Opinion> Opinions {get; set;} = new List<Opinion>();
         
         public string Email { get; set; }
         
